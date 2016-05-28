@@ -12,15 +12,17 @@ public class Chunker {
         this.data = data;
         this.hash = hash;
     }
-    public byte[] getNextChunk(){
+    public long getNextChunkEnd(){
         if (current_position == data.length){
-            return null;
+            return 0;
         }
         int start = current_position;
         while( current_position < data.length && hash.getHash() != MAGIC_HASH){
-            hash.pushByte(data[current_position++]);
+            System.out.println(hash.getHash());
+            hash.pushByte(data[current_position]);
+            current_position++;
         }
-        byte[] next_chunk = Arrays.copyOfRange(data, start,current_position);
-        return next_chunk;
+        hash.cleanHash();
+        return current_position;
     }
 }

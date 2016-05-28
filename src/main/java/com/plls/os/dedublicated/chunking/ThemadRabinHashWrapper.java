@@ -7,10 +7,11 @@ public class ThemadRabinHashWrapper implements WindowHash {
 
     RabinFingerprintLongWindowed window;
 
-    ThemadRabinHashWrapper(int window_size){
-        Polynomial polynomial = Polynomial.createIrreducible(53);
+    public ThemadRabinHashWrapper(){
+        int window_size = 256;
+        Polynomial polynomial = Polynomial.createIrreducible(10);
         // Create a windowed fingerprint object with a window size of 48 bytes.
-        RabinFingerprintLongWindowed window = new RabinFingerprintLongWindowed(polynomial, window_size);
+        window = new RabinFingerprintLongWindowed(polynomial, window_size);
     }
 
     public void pushByte(byte b) {
