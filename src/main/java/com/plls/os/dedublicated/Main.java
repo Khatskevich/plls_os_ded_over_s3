@@ -12,26 +12,33 @@ import java.nio.file.Paths;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-//        String filename = "/Users/alexeykhatskevich/Downloads/q.pdf";
-//        Path path = null;
-//        path = Paths.get(filename);
-//        byte[] data =null;
-//        if (path != null)
-//            data = Files.readAllBytes(path);
-//        OSDChunkedObject osdObject = null;
-//        try {
-//            osdObject = new OSDChunkedObject(filename, data, new OSDObjectChunker());
-//            System.out.print(osdObject);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
+        String filename = "/Users/alexeykhatskevich/Downloads/q.pdf";
+        Path path = null;
+        path = Paths.get(filename);
+        byte[] data =null;
+        if (path != null)
+            data = Files.readAllBytes(path);
+        OSDChunkedObject osdObject = null;
         try {
-            SingleDatabaseMetaServer singleDatabaseMetaServer = new SingleDatabaseMetaServer();
-            singleDatabaseMetaServer.addNewFile(null);
+            osdObject = new OSDChunkedObject(filename, data, new OSDObjectChunker());
+            System.out.print(osdObject);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        try {
+            SingleDatabaseMetaServer singleDatabaseMetaServer = new SingleDatabaseMetaServer();
+            singleDatabaseMetaServer.addNewFile(osdObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        try {
+//            SingleDatabaseMetaServer singleDatabaseMetaServer = new SingleDatabaseMetaServer();
+//            singleDatabaseMetaServer.addNewFile(null);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         //UploadObjectSingleOperation.main(null);
     }

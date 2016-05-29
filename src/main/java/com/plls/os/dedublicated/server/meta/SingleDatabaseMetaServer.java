@@ -39,7 +39,7 @@ public class SingleDatabaseMetaServer implements MetaServer {
         String sql_create_file = "select * from add_file(?, ?);"; // hash, name
         PreparedStatement stmt = c.prepareStatement(sql_create_file);
         stmt.setString(1,obj.getRepresentativeHash());
-        stmt.setString(1,obj.name);
+        stmt.setString(2,obj.name);
         ResultSet rs = null;
         try {
             rs = stmt.executeQuery();
@@ -56,35 +56,50 @@ public class SingleDatabaseMetaServer implements MetaServer {
 
         combined_object_id = rs.getLong("combined_object_id");
         object_id = rs.getLong("object_id");
+        rs.close();
         obj.oject_id = object_id;
         obj.combined_object_id = combined_object_id;
 
         stmt.close();
 
+
         String sql = "select * from add_chunk_to_object(?, ?,?, ?);";// repr_hash, size, start, obj id
-        stmt = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        c.setAutoCommit(false);
+        stmt = c.prepareStatement(sql);
+        // TODO: 29.05.16  : do it just in 1 query
         for(long start : obj.chunkDescriptions.keySet()){
             Chunk chunk = obj.chunkDescriptions.get(start);
             stmt.setString(1,chunk.hash);
-            stmt.setLong(2,chunk.size);
-            stmt.setLong(3,start);
-            stmt.setLong(4,chunk.id);
-            stmt.addBatch();
-        }
-        stmt.executeBatch();
-        c.commit();
-        ResultSet generatedKeys = stmt.getGeneratedKeys();
-        while (generatedKeys.next()) {
-            System.out.println(generatedKeys.getInt(1));
-            System.out.println(generatedKeys.getString(2));
-            System.out.println(generatedKeys.getString(3));
-        }
-        while (rs.next()) {
-            System.out.print(rs.getInt(1));
+            stmt.setInt(2, (int) chunk.size);
+            stmt.setInt(3, (int) start);
+            stmt.setInt(4, (int) object_id);
+            rs = stmt.executeQuery();
+            if (!rs.next()){
+                throw new Exception();
+            }
+            chunk.id = rs.getLong(1);
+            rs.close();
         }
         stmt.close();
         c.close();
+//        String sql = "select * from add_chunk_to_object(?, ?,?, ?);";// repr_hash, size, start, obj id
+//        stmt = c.prepareStatement(sql);
+//        c.setAutoCommit(false);
+//        for(long start : obj.chunkDescriptions.keySet()){
+//            Chunk chunk = obj.chunkDescriptions.get(start);
+//            stmt.setString(1,chunk.hash);
+//            stmt.setLong(2,chunk.size);
+//            stmt.setLong(3,start);
+//            stmt.setLong(4,object_id);
+//            stmt.addBatch();
+//        }
+//        stmt.executeBatch();
+//        c.commit();
+//        ResultSet generatedKeys = stmt.getGeneratedKeys();
+//        while (rs.next()) {
+//            System.out.print(rs.getInt(1));
+//        }
+//        stmt.close();
+//        c.close();
     }
 
     @Override
