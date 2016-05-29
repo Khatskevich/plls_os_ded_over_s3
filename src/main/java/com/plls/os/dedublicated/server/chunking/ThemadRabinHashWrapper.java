@@ -1,4 +1,4 @@
-package com.plls.os.dedublicated.chunking;
+package com.plls.os.dedublicated.server.chunking;
 
 import org.rabinfingerprint.fingerprint.RabinFingerprintLongWindowed;
 import org.rabinfingerprint.polynomial.Polynomial;

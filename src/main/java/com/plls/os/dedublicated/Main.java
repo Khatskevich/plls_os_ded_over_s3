@@ -1,7 +1,7 @@
 package com.plls.os.dedublicated;
 
-import com.plls.os.dedublicated.chunking.MyRabin;
-import com.plls.os.dedublicated.chunking.OSDObjectChunker;
+import com.plls.os.dedublicated.server.data.OSDChunkedObject;
+import com.plls.os.dedublicated.server.chunking.OSDObjectChunker;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,7 +17,7 @@ public class Main {
         byte[] data =null;
         if (path != null)
             data = Files.readAllBytes(path);
-            OSDObject osdObject = new OSDObject(data);
+            OSDChunkedObject osdObject = new OSDChunkedObject(data);
         try {
             OSDObjectChunker.process(osdObject);
         } catch (Exception e) {

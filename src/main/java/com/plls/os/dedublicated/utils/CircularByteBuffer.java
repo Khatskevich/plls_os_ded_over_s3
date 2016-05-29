@@ -1,4 +1,4 @@
-package com.plls.os.dedublicated;
+package com.plls.os.dedublicated.utils;
 
 public class CircularByteBuffer <T> {
     private byte[] data;

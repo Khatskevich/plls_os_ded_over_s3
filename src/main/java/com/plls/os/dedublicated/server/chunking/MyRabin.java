@@ -1,7 +1,6 @@
-package com.plls.os.dedublicated.chunking;
+package com.plls.os.dedublicated.server.chunking;
 
-import com.amazonaws.services.dynamodbv2.xspec.M;
-import com.plls.os.dedublicated.CircularByteBuffer;
+import com.plls.os.dedublicated.utils.CircularByteBuffer;
 
 public class MyRabin implements WindowHash {
     private final long window_size;

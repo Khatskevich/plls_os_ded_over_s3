@@ -1,6 +1,4 @@
-package com.plls.os.dedublicated.chunking;
-
-import java.util.Arrays;
+package com.plls.os.dedublicated.server.chunking;
 
 public class Chunker {
     static long MAGIC_HASH = 100;
