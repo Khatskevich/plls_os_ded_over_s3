@@ -5,6 +5,7 @@ public class Chunk {
     public long size;
     public byte[] data;
     public String hash;
+    public long combined_object_id;
 
     @Override
     public String toString() {

@@ -5,18 +5,19 @@ import com.plls.os.dedublicated.server.chunking.OSDObjectChunker;
 import java.util.*;
 
 public class OSDChunkedObject {
-    long id;
-    long representativeId = 0;
+    public long oject_id;
+    public long combined_object_id;
     String representativeHash = null;
-
+    public String name;
     public byte[] getData() {
         return null;
     }
 
-    private TreeMap<Long, Chunk> chunkDescriptions= new TreeMap<Long, Chunk>();
+    public TreeMap<Long, Chunk> chunkDescriptions= new TreeMap<Long, Chunk>();
 
-    public OSDChunkedObject(byte[] data, OSDObjectChunker osdObjectChunker) throws Exception {
+    public OSDChunkedObject(String name, byte[] data, OSDObjectChunker osdObjectChunker) throws Exception {
         this.chunkDescriptions = osdObjectChunker.process(data);
+        this.name = name;
     }
 
     @Override
@@ -30,5 +31,18 @@ public class OSDChunkedObject {
             }
         }
         return result.toString();
+    }
+
+    public String getRepresentativeHash(){
+        if ( chunkDescriptions==null){
+            return null;
+        }
+        String minimal_hash = null;
+        for(Chunk ch : chunkDescriptions.values()){
+            if( minimal_hash == null || minimal_hash.compareTo(ch.hash) > 0){
+                minimal_hash = ch.hash;
+            }
+        }
+        return minimal_hash;
     }
 }
