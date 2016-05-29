@@ -6,6 +6,7 @@ import com.plls.os.dedublicated.server.data.Chunk;
 import com.plls.os.dedublicated.server.data.OSDChunkedObject;
 
 import java.sql.*;
+import java.util.TreeMap;
 
 public class SingleDatabaseMetaServer implements MetaServer {
 
@@ -25,8 +26,24 @@ public class SingleDatabaseMetaServer implements MetaServer {
     }
 
     @Override
-    public void fillFileMetaById(OSDChunkedObject obj) {
-
+    public void fillFileMetaById(OSDChunkedObject obj) throws Exception {
+        Connection c = connectionPool.getConnection();
+        String sql = "select otc.start as start, c.id as id, c.size as size , c.hash as hash from object_to_chunk otc inner join chunk c on c.id = otc.chunk_id  where otc.object_id = ?;\n;";// obj id
+        PreparedStatement stmt = c.prepareStatement(sql);
+        stmt = c.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        TreeMap<Long, Chunk> chunkDescriptions= new TreeMap<Long, Chunk>();
+        while ( rs.next()){
+            Chunk chunk = new Chunk();
+            chunk.id = rs.getLong("id");
+            chunk.size = rs.getLong("size");
+            chunk.hash = rs.getString("hash");
+            chunkDescriptions.put(rs.getLong("start"),chunk);
+        }
+        obj.chunkDescriptions = chunkDescriptions;
+        rs.close();
+        stmt.close();
+        c.close();
     }
 
     @Override
