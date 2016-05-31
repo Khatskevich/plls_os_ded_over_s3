@@ -18,6 +18,9 @@ public class OSDObjectChunker {
             Chunk chunk = new Chunk();
             chunk.size = start_of_next_chunk - end_of_previous_chunk;
             chunk.hash = MD5Hash.getHash(data, end_of_previous_chunk, chunk.size);
+            byte[] d = new byte[(int) chunk.size];
+            System.arraycopy(data,(int)end_of_previous_chunk, d,0,(int)chunk.size);
+            chunk.data = d;
             chunkDescriptions.put(end_of_previous_chunk,chunk);
             end_of_previous_chunk = start_of_next_chunk;
         }

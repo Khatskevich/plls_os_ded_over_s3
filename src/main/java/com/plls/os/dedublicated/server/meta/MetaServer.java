@@ -5,7 +5,7 @@ import com.plls.os.dedublicated.server.data.OSDChunkedObject;
 import java.sql.SQLException;
 
 public interface MetaServer {
-    void fillFileMetaById(OSDChunkedObject obj) throws SQLException, Exception;
-    void addNewFile(OSDChunkedObject obj) throws SQLException, Exception;
+    public void fillFileMetaByName(OSDChunkedObject obj) throws Exception;
+    void addNewFile(OSDChunkedObject obj) throws Exception;
     void deleteFile(OSDChunkedObject obj);
 }

@@ -1,8 +1,10 @@
 package com.plls.os.dedublicated;
 
+import com.plls.os.dedublicated.server.Server;
 import com.plls.os.dedublicated.server.data.OSDChunkedObject;
 import com.plls.os.dedublicated.server.chunking.OSDObjectChunker;
 import com.plls.os.dedublicated.server.meta.SingleDatabaseMetaServer;
+import com.plls.os.dedublicated.server.storage.StorageOverLocalDiskSimplest;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,7 +14,7 @@ import java.nio.file.Paths;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String filename = "/Users/alexeykhatskevich/Downloads/q.pdf";
+        String filename = "/Users/alexeykhatskevich/Downloads/ojdbc7.jar";
         Path path = null;
         path = Paths.get(filename);
         byte[] data =null;
@@ -22,14 +24,10 @@ public class Main {
         try {
             osdObject = new OSDChunkedObject(filename, data, new OSDObjectChunker());
             System.out.print(osdObject);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-            SingleDatabaseMetaServer singleDatabaseMetaServer = new SingleDatabaseMetaServer();
-            singleDatabaseMetaServer.addNewFile(osdObject);
+            Server server = new Server(new SingleDatabaseMetaServer(), new StorageOverLocalDiskSimplest());
+            server.saveFile(osdObject);
+            OSDChunkedObject osdChunkedObject2 = server.getFileByName(osdObject.name);
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
         }

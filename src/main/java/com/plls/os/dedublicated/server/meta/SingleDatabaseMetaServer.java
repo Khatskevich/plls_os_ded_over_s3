@@ -26,12 +26,22 @@ public class SingleDatabaseMetaServer implements MetaServer {
     }
 
     @Override
-    public void fillFileMetaById(OSDChunkedObject obj) throws Exception {
+    public void fillFileMetaByName(OSDChunkedObject obj) throws Exception {
         Connection c = connectionPool.getConnection();
-        String sql = "select otc.start as start, c.id as id, c.size as size , c.hash as hash from object_to_chunk otc inner join chunk c on c.id = otc.chunk_id  where otc.object_id = ?;\n;";// obj id
+        String sql = "select id, combined_object_id from object where name = ?;";// obj id
         PreparedStatement stmt = c.prepareStatement(sql);
-        stmt = c.prepareStatement(sql);
+        stmt.setString(1,obj.name);
         ResultSet rs = stmt.executeQuery();
+        if ( rs.next()){
+            obj.oject_id = rs.getLong("id");
+            obj.combined_object_id = rs.getLong("combined_object_id");
+        }
+        rs.close();
+        stmt.close();
+        sql = "select otc.start as start, c.id as id, c.size as size , c.hash as hash from object_to_chunk otc inner join chunk c on c.id = otc.chunk_id  where otc.object_id = ?;";// obj id
+        stmt = c.prepareStatement(sql);
+        stmt.setInt(1, (int) obj.oject_id);
+        rs = stmt.executeQuery();
         TreeMap<Long, Chunk> chunkDescriptions= new TreeMap<Long, Chunk>();
         while ( rs.next()){
             Chunk chunk = new Chunk();
@@ -62,7 +72,7 @@ public class SingleDatabaseMetaServer implements MetaServer {
             rs = stmt.executeQuery();
         } catch (SQLException e) {
             if (e.getSQLState().equals("23505")) {//duplicate name
-                throw e;
+                throw new Exception("This file is already exists");
             }
         }
         long combined_object_id = 0;

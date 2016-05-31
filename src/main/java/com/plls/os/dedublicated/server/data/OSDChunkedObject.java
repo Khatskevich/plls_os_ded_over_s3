@@ -15,6 +15,10 @@ public class OSDChunkedObject {
 
     public TreeMap<Long, Chunk> chunkDescriptions= new TreeMap<Long, Chunk>();
 
+    public OSDChunkedObject(String name){
+        this.name = name;
+    }
+
     public OSDChunkedObject(String name, byte[] data, OSDObjectChunker osdObjectChunker) throws Exception {
         this.chunkDescriptions = osdObjectChunker.process(data);
         this.name = name;

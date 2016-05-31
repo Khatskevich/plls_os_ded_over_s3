@@ -16,7 +16,6 @@ public class Chunker {
         }
         int start = current_position;
         while( current_position < data.length && hash.getHash() != MAGIC_HASH){
-            System.out.println(hash.getHash());
             hash.pushByte(data[current_position]);
             current_position++;
         }

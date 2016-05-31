@@ -22,8 +22,9 @@ public class StorageOverLocalDiskSimplest implements StorageServer {
     @Override
     public void saveChunks(TreeMap<Long,Chunk> chunks, Chunk representative) throws Exception {
         for( Chunk c : chunks.values() ){
-            FileOutputStream fos = new FileOutputStream("/tmp/"+c.id);
+            FileOutputStream fos = new FileOutputStream("valera"+c.id);
             try {
+
                 fos.write(c.data);
             }
             finally {
