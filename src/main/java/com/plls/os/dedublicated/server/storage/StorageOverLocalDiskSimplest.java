@@ -11,7 +11,7 @@ public class StorageOverLocalDiskSimplest implements StorageServer {
     public void fillChunksData(TreeMap<Long,Chunk> chunks, Chunk representative) throws Exception {
         for(Long start : chunks.keySet() ){
             Chunk c = chunks.get(start);
-            FileInputStream fis = new FileInputStream("/tmp/"+c.id);
+            FileInputStream fis = new FileInputStream("valera"+c.id);
             byte[] b = new byte[(int) c.size];
             fis.read(b,0, (int) c.size);
             c.data = b;

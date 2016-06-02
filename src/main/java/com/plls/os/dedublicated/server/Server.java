@@ -12,10 +12,10 @@ public class Server {
         this.ss = ss;
     }
     public OSDChunkedObject getFileByName(String name) throws Exception {
-        OSDChunkedObject osdChunkedObject = new OSDChunkedObject("/Users/alexeykhatskevich/Downloads/q.pdf");
+        OSDChunkedObject osdChunkedObject = new OSDChunkedObject(name);
         ms.fillFileMetaByName(osdChunkedObject);
         ss.fillChunksData(osdChunkedObject.chunkDescriptions, null);
-      return null;
+      return osdChunkedObject;
     }
 
     public void saveFile(OSDChunkedObject osdChunkedObject) throws Exception {
