@@ -22,12 +22,12 @@ public class Main {
             data = Files.readAllBytes(path);
         OSDChunkedObject osdObject = null;
         try {
-            //osdObject = new OSDChunkedObject(filename, data, new OSDObjectChunker());
-            //System.out.print(osdObject);
-            Server server = new Server(new SingleDatabaseMetaServer(), new StorageOverLocalDiskSimplest());
+            osdObject = new OSDChunkedObject(filename, data, new OSDObjectChunker());
+            System.out.print(osdObject);
+            //Server server = new Server(new SingleDatabaseMetaServer(), new StorageOverLocalDiskSimplest());
             //server.saveFile(osdObject);
-            OSDChunkedObject osdChunkedObject2 = server.getFileByName(filename);
-            System.out.println(osdChunkedObject2);
+            //OSDChunkedObject osdChunkedObject2 = server.getFileByName(filename);
+            //System.out.println(osdChunkedObject2);
         } catch (Exception e) {
             e.printStackTrace();
         }
