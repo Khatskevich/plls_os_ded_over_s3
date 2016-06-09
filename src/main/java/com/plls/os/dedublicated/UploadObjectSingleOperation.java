@@ -11,6 +11,11 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class UploadObjectSingleOperation {
+
+
+    //UploadObjectSingleOperation.main(null);
+
+
     private static String bucketName     = "pllsdedub";
     private static String keyName        = "BitTorrent.dmg";
     private static String uploadFileName = "/Users/alexeykhatskevich/Downloads/BitTorrent.dmg";

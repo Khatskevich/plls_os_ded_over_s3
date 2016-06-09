@@ -48,17 +48,18 @@ public class StorageOverLocalDiskBinned implements StorageServer {
 
         public void fillChunkData(Chunk chunk) throws Exception {
             if (chunk==null) throw new Exception();
-            Integer chunk_offset = numberOffsetMap.get(chunk.id);
+            Integer chunk_offset = numberOffsetMap.get((int) chunk.id);
             if ( chunk_offset == null) throw new Exception();
             tempBuffer.clear();
             file_data.read(tempBuffer,chunk_offset);
+            tempBuffer.flip();
             chunk.data = new byte[(int) chunk.size];
             tempBuffer.get(chunk.data, 0, (int) chunk.size);
         }
 
         public void saveChunk(Chunk chunk) throws Exception {
             if (chunk == null) throw new Exception();
-            Integer chunk_offset = numberOffsetMap.get(chunk.id);
+            Integer chunk_offset = numberOffsetMap.get((int) chunk.id);
             if (chunk_offset != null) return;
             chunk_offset = numberOffsetMap.size() * chunk_size;
             file_data.position(chunk_offset);
@@ -72,6 +73,7 @@ public class StorageOverLocalDiskBinned implements StorageServer {
             tempBuffer.flip();
             file_meta.position( numberOffsetMap.size()*8);
             file_meta.write(tempBuffer);
+            numberOffsetMap.put((int) chunk.id,chunk_offset);
         }
 
         public static int roundSize(int size){
