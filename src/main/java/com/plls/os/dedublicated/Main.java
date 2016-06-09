@@ -30,12 +30,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         if ( args.length != 3){
-            System.out.println("save path name");
+            System.out.println("store path name");
             System.out.println("restore name path");
             return;
         }
-        if (args[0].equals("save")){
-            System.out.println("saveing file...");
+        if (args[0].equals("store")){
+            System.out.println("storeing file...");
             String filename = args[1];
             String name = args[2];
             Path path = Paths.get(filename);

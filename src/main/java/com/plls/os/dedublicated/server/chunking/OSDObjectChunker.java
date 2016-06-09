@@ -11,7 +11,7 @@ public class OSDObjectChunker {
         }
         TreeMap<Long, Chunk> chunkDescriptions= new TreeMap<Long, Chunk>();
         //Chunker chunker = new Chunker(data,new ThemadRabinHashWrapper());
-        Chunker chunker = new Chunker(data,new MyRabin(1333,7,20));
+        Chunker chunker = new Chunker(data,new MyRabin(4094,3,50));
         long start_of_next_chunk;
         long end_of_previous_chunk = 0;
         while ( (start_of_next_chunk = chunker.getNextChunkEnd()) > 0){

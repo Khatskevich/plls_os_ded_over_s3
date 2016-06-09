@@ -1,9 +1,9 @@
 package com.plls.os.dedublicated.server.chunking;
 
 public class Chunker {
-    private static final int MIN_CHUNK_SIZE = 2048;
-    private static final int MAX_CHUNK_SIZE = 5*2048;
-    static long MAGIC_HASH = 100;
+    private static final int MIN_CHUNK_SIZE = 4*1024;
+    private static final int MAX_CHUNK_SIZE = 40*1024;
+    static long MAGIC_HASH = 0;
     byte[] data;
     WindowHash hash;
     int last_chunk_end = 0;
