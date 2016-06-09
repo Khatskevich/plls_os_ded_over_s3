@@ -38,15 +38,21 @@ public class OSDChunkedObject {
     }
 
     public String getRepresentativeHash(){
+        Chunk representative = getRepresentativeChunk();
+        if (representative == null)
+            return null;
+        return representative.hash;
+    }
+    public Chunk getRepresentativeChunk(){
         if ( chunkDescriptions==null){
             return null;
         }
-        String minimal_hash = null;
+        Chunk representative = null;
         for(Chunk ch : chunkDescriptions.values()){
-            if( minimal_hash == null || minimal_hash.compareTo(ch.hash) > 0){
-                minimal_hash = ch.hash;
+            if( representative == null || representative.hash.compareTo(ch.hash) > 0){
+                representative = ch;
             }
         }
-        return minimal_hash;
+        return representative;
     }
 }
